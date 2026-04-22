@@ -362,6 +362,52 @@ body {
   margin-top: 4px;
 }
 
+.hist {
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+  display: grid;
+  gap: 12px;
+}
+
+.histBars {
+  display: grid;
+  gap: 10px;
+}
+
+.histRow {
+  display: grid;
+  grid-template-columns: 90px 1fr 34px;
+  gap: 10px;
+  align-items: center;
+}
+
+.histName {
+  font-weight: 800;
+  font-size: 13px;
+  color: rgba(15, 23, 42, 0.82);
+}
+
+.histTrack {
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.histBar {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 250ms ease;
+}
+
+.histValue {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: rgba(15, 23, 42, 0.78);
+  font-weight: 800;
+}
+
 @media (max-width: 540px) {
   .pageTitle {
     font-size: 30px;
@@ -378,5 +424,8 @@ body {
   .wheelLabelText {
     transform: translate(-50%, -50%) translateY(-118px) rotate(90deg);
     font-size: 12px;
+  }
+  .histRow {
+    grid-template-columns: 70px 1fr 28px;
   }
 }

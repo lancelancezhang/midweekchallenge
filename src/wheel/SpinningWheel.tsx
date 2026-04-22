@@ -1,6 +1,6 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { MemberName } from '../types'
-import { MEMBERS } from '../data/members'
+import { MEMBER_BY_NAME, MEMBERS } from '../data/members'
 
 function easeOutExpo(t: number) {
   return t === 1 ? 1 : 1 - Math.pow(2, -10 * t)
@@ -8,6 +8,28 @@ function easeOutExpo(t: number) {
 
 function randomInt(maxExclusive: number) {
   return Math.floor(Math.random() * maxExclusive)
+}
+
+const STORAGE_KEY = 'midweekchallenge:wheelCounts:v1'
+
+function loadCounts(): Partial<Record<MemberName, number>> {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return {}
+    const parsed = JSON.parse(raw) as unknown
+    if (!parsed || typeof parsed !== 'object') return {}
+    return parsed as Partial<Record<MemberName, number>>
+  } catch {
+    return {}
+  }
+}
+
+function saveCounts(counts: Partial<Record<MemberName, number>>) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(counts))
+  } catch {
+    // ignore
+  }
 }
 
 export function SpinningWheel() {
@@ -28,7 +50,19 @@ export function SpinningWheel() {
   const [rotation, setRotation] = useState(0) // degrees
   const [spinning, setSpinning] = useState(false)
   const [selected, setSelected] = useState<MemberName | null>(null)
+  const [counts, setCounts] = useState<Partial<Record<MemberName, number>>>(() =>
+    loadCounts(),
+  )
   const rafRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    if (!selected) return
+    setCounts((cur) => {
+      const next = { ...cur, [selected]: (cur[selected] ?? 0) + 1 }
+      saveCounts(next)
+      return next
+    })
+  }, [selected])
 
   const spin = () => {
     if (spinning) return
@@ -111,6 +145,33 @@ export function SpinningWheel() {
         <div className="wheelResult">
           <div className="wheelLabel">Result</div>
           <div className="wheelValue">{selected ?? '—'}</div>
+        </div>
+      </div>
+
+      <div className="hist">
+        <div className="histBars" role="list" aria-label="Wheel results histogram">
+          {names.map((name) => {
+            const value = counts[name] ?? 0
+            const max =
+              Math.max(1, ...names.map((n) => (counts[n] ?? 0) as number)) || 1
+            const pct = (value / max) * 100
+            const color = MEMBER_BY_NAME[name].color
+            return (
+              <div key={name} className="histRow" role="listitem">
+                <div className="histName">{name}</div>
+                <div className="histTrack" aria-label={`${name}: ${value}`}>
+                  <div
+                    className="histBar"
+                    style={{
+                      width: `${pct}%`,
+                      backgroundColor: color,
+                    }}
+                  />
+                </div>
+                <div className="histValue">{value}</div>
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>
