@@ -9,7 +9,7 @@ export const CHALLENGES: ChallengePost[] = [
     description: '"Purchase a stock, lotto ticket/scratchie, open a pack of trading cards/CS2 case or even flip something. Whoever has the highest ROI by next midweek challenge (midday Wednesday) I\'ll shout a meal next time I see you, as well as the rights to decide on the next midweek challenge."'
     ,
     answers: {
-      Lance: '',
+      Lance: 'CSGO Cases\n \Mac-10 Lightbox Battle Scarred\nTec-9 Slag Field Tested',
       Ricky: '',
       Jacob: '',
       William: '',
@@ -18,7 +18,7 @@ export const CHALLENGES: ChallengePost[] = [
       Logan: '',
     },
     notes: {
-      Lance: '',
+      Lance: 'Return: -97.4%',
       Ricky: '',
       Jacob: '',
       William: '',
@@ -45,7 +45,7 @@ export const CHALLENGES: ChallengePost[] = [
     notes: {
       Lance: '4 laugh reacts',
       Ricky: 'not rated',
-      Jacob: 'no rated',
+      Jacob: 'not rated',
       William: 'Logan gave a 2/10',
       Carlos: 'Ricky gave a 3/10',
       Daniel: 'not rated',
