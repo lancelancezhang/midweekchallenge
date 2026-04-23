@@ -1,5 +1,6 @@
 import { Link, Route, Routes } from 'react-router-dom'
 import { HomePage } from './pages/HomePage'
+import { PodcastPage } from './pages/PodcastPage'
 import { RandomPage } from './pages/RandomPage'
 
 export function App() {
@@ -14,8 +15,11 @@ export function App() {
                 <h1 className="pageTitle">Mid Week Challenge</h1>
               </div>
               <nav className="nav">
+                <Link className="navLink" to="/podcast">
+                  Podcast
+                </Link>
                 <Link className="navLink" to="/random">
-                  Random wheel
+                  Wheel
                 </Link>
               </nav>
             </header>
@@ -23,6 +27,7 @@ export function App() {
           </div>
         }
       />
+      <Route path="/podcast" element={<PodcastPage />} />
       <Route path="/random" element={<RandomPage />} />
     </Routes>
   )

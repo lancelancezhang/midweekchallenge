@@ -12,6 +12,9 @@ export function RandomPage() {
           <Link className="navLink" to="/">
             Back
           </Link>
+          <Link className="navLink" to="/podcast">
+            Podcast
+          </Link>
         </nav>
       </header>
 

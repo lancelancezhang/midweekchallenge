@@ -77,6 +77,44 @@ body {
   gap: 28px;
 }
 
+.podcastStack {
+  align-content: start;
+}
+
+.podcastCard .postTitle {
+  margin-bottom: 6px;
+}
+
+.podcastDate {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.podcastDescription {
+  margin-top: 0;
+}
+
+.podcastLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.podcastPeople {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 8px 0 14px;
+}
+
+.podcastExtLink {
+  font-size: 14px;
+}
+
 .post {
   border: 1px solid var(--border);
   background: var(--card);
@@ -130,6 +168,34 @@ body {
   margin: 10px 0 0;
   color: var(--muted);
   line-height: 1.5;
+}
+
+.returnChartCard {
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+}
+
+.returnChart {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.returnChartTitle {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+/* Recharts needs a parent with explicit height for ResponsiveContainer */
+.returnChartRecharts {
+  width: 100%;
+  min-height: 360px;
+  height: 400px;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 }
 
 .chip {

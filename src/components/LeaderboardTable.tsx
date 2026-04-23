@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import type { MemberName } from '../types'
-import { MEMBER_NAMES } from '../data/members'
+import { getLeaderboardMemberOrder } from '../lib/leaderboardOrder'
 import { MemberChip } from './MemberChip'
 
 export function LeaderboardTable({
@@ -12,25 +12,10 @@ export function LeaderboardTable({
   answers?: Partial<Record<MemberName, string>>
   notes?: Partial<Record<MemberName, string>>
 }) {
-  const ranking = useMemo(() => {
-    if (initialRanking && initialRanking.length > 0) return [...initialRanking]
-
-    // If answers are present, follow the key insertion order from challenges.ts
-    const fromAnswers = (answers ? (Object.keys(answers) as MemberName[]) : []).filter(
-      (m) => MEMBER_NAMES.includes(m),
-    )
-
-    const unique: MemberName[] = []
-    for (const name of fromAnswers) {
-      if (!unique.includes(name)) unique.push(name)
-    }
-
-    for (const name of MEMBER_NAMES) {
-      if (!unique.includes(name)) unique.push(name)
-    }
-
-    return unique
-  }, [answers, initialRanking])
+  const ranking = useMemo(
+    () => getLeaderboardMemberOrder(initialRanking, answers),
+    [answers, initialRanking],
+  )
 
   return (
     <div className="card">

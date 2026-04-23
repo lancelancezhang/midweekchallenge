@@ -1,5 +1,7 @@
 import type { ChallengePost } from '../types'
+import { getLeaderboardMemberOrder } from '../lib/leaderboardOrder'
 import { MemberChip } from './MemberChip'
+import { ReturnBarChart } from './ReturnBarChart'
 import { LeaderboardTable } from './LeaderboardTable'
 
 export function ChallengePostCard({ post }: { post: ChallengePost }) {
@@ -23,6 +25,14 @@ export function ChallengePostCard({ post }: { post: ChallengePost }) {
         answers={post.answers}
         notes={post.notes}
       />
+      {post.returnPercentages ? (
+        <div className="returnChartCard">
+          <ReturnBarChart
+            values={post.returnPercentages}
+            memberOrder={getLeaderboardMemberOrder(post.initialRanking, post.answers)}
+          />
+        </div>
+      ) : null}
     </article>
   )
 }

@@ -3,19 +3,18 @@ import type { ChallengePost } from '../types'
 export const CHALLENGES: ChallengePost[] = [
   {
     id: 'week-3',
-    title: 'GOLD GOLD GOLD GOLD',
-    weekLabel: 'Week 3',
+    title: 'GOLD GOLD GOLD GOLD📈',
+    weekLabel: 'Week 3 | 22/04',
     author: 'Ricky',
-    description: '"Purchase a stock, lotto ticket/scratchie, open a pack of trading cards/CS2 case or even flip something. Whoever has the highest ROI by next midweek challenge (midday Wednesday) I\'ll shout a meal next time I see you, as well as the rights to decide on the next midweek challenge."'
-    ,
+    description: '"Purchase a stock, lotto ticket/scratchie, open a pack of trading cards/CS2 case or even flip something. Whoever has the highest ROI by next midweek challenge (midday Wednesday) I\'ll shout a meal next time I see you, as well as the rights to decide on the next midweek challenge."',
     answers: {
-      Carlos: 'Crystal Roulette',
-      Ricky: '1x op15 pack \n2x ascended heroes tins',
-      Lance: 'CSGO Cases\nMac-10 Lightbox Battle Scarred\nTec-9 Slag Field Tested',
+      Carlos: 'Stake.com:\nCrystal Roulette\nBlack Jack',
+      Ricky: 'One Piece:\n1x op15 pack \n2x ascended heroes tins',
+      Logan: 'CSGO Cases:\nR8 Revolver\nDessert Eagle\nMac-10',
+      Lance: 'CSGO Cases:\nMac-10 Lightbox Battle Scarred\nTec-9 Slag Field Tested',
       Jacob: '',
       William: '',
       Daniel: '',
-      Logan: '',
     },
     notes: {
       Lance: 'Return: -97.4%',
@@ -24,13 +23,22 @@ export const CHALLENGES: ChallengePost[] = [
       William: '',
       Carlos: 'Return: 108%',
       Daniel: '',
-      Logan: '',
+      Logan: 'Return: -87%',
+    },
+    returnPercentages: {
+      Lance: -97.4,
+      Ricky: -73.6,
+      Jacob: null,
+      William: null,
+      Carlos: 108,
+      Daniel: null,
+      Logan: -87,
     },
   },
   {
     id: 'week-2',
     title: 'Tier List',
-    weekLabel: 'Week 2',
+    weekLabel: 'Week 2 | 15/04',
     author: 'Logan',
     description: '"Build a tier list S,A,B,C for a topic of your choosing. Rank all members in the group chat. The person ranked in C tier (choose wisely) will then rate your tier list for accuracy 1-10. The highest score gets to pick who sets next week’s mid week challenge."',
     answers: {
@@ -55,7 +63,7 @@ export const CHALLENGES: ChallengePost[] = [
   {
     id: 'week-1',
     title: 'Emoji challenge',
-    weekLabel: 'Week 1',
+    weekLabel: 'Week 1 | 08/04',
     author: 'Daniel',
     description: '"1. ⏰🍊 \n2. 🕕🏃🕕😡 \n3.🐍🐍✈️ \n4.🦊👔 \n5.📄📚🏈 \n6.⭐️🥾"',
     answers: {
@@ -76,4 +84,3 @@ export const CHALLENGES: ChallengePost[] = [
     },
   },
 ]
-
