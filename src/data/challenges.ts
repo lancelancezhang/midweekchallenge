@@ -10,7 +10,7 @@ export const CHALLENGES: ChallengePost[] = [
     answers: {
       Carlos: 'Stake.com:\nCrystal Roulette\nBlack Jack',
       Ricky: 'One Piece:\n1x op15 pack \n2x ascended heroes tins',
-      Logan: 'CSGO Cases:\nR8 Revolver\nDessert Eagle\nMac-10',
+      Logan: 'CSGO Cases:\nR8 Revolver\nDesert Eagle\nMac-10',
       Lance: 'CSGO Cases:\nMac-10 Lightbox Battle Scarred\nTec-9 Slag Field Tested',
       Jacob: '',
       William: '',
