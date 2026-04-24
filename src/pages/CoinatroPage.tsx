@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CoinWheel } from '../wheelatroCoins/CoinWheel'
 import { playCoinClink } from '../wheelatroCoins/coinSfx'
@@ -14,8 +14,10 @@ import {
   costCoinValue,
   costRemoveBlank,
   createInitialState,
+  loadCoinatroState,
   resolveSpin,
   rollSlice,
+  saveCoinatroState,
   trueOdds,
 } from '../wheelatroCoins/engine'
 import type { CoinSlice, CoinatroState } from '../wheelatroCoins/types'
@@ -25,10 +27,14 @@ function pct(n: number) {
 }
 
 export function CoinatroPage() {
-  const [state, setState] = useState<CoinatroState>(() => createInitialState())
+  const [state, setState] = useState<CoinatroState>(() => loadCoinatroState() ?? createInitialState())
   const [wheelSpinning, setWheelSpinning] = useState(false)
   const [pendingSliceId, setPendingSliceId] = useState<string | null>(null)
   const [pendingSlice, setPendingSlice] = useState<CoinSlice | null>(null)
+
+  useEffect(() => {
+    saveCoinatroState(state)
+  }, [state])
 
   const odds = useMemo(() => trueOdds(state), [state])
   const coinVal = useMemo(() => coinValue(state), [state])

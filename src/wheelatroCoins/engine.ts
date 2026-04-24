@@ -1,4 +1,4 @@
-import type { CoinSlice, CoinatroState } from './types'
+import type { CoinSlice, CoinSliceKind, CoinatroState } from './types'
 
 function fibFrom1And2(n: number) {
   // sequence: 1, 2, 3, 5, 8, ...
@@ -142,6 +142,67 @@ export function buyRemoveBlank(state: CoinatroState): CoinatroState {
     removeBlankLevel: state.removeBlankLevel + 1,
     slices: next,
     lastMessage: 'Removed a blank slice.',
+  }
+}
+
+const STORAGE_KEY = 'midweekchallenge:coinatro'
+
+function isSliceKind(x: unknown): x is CoinSliceKind {
+  return x === 'coin' || x === 'blank'
+}
+
+function normalizeSlice(x: unknown): CoinSlice | null {
+  if (!x || typeof x !== 'object') return null
+  const o = x as { id?: unknown; kind?: unknown; label?: unknown }
+  if (typeof o.id !== 'string') return null
+  if (typeof o.label !== 'string') return null
+  if (!isSliceKind(o.kind)) return null
+  return { id: o.id, kind: o.kind, label: o.label }
+}
+
+export function loadCoinatroState(): CoinatroState | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as unknown
+    if (!parsed || typeof parsed !== 'object') return null
+    const o = parsed as Record<string, unknown>
+
+    if (typeof o.spinCount !== 'number') return null
+    if (typeof o.coinHitCount !== 'number') return null
+    if (typeof o.coinStreak !== 'number') return null
+    if (typeof o.coins !== 'number') return null
+    if (typeof o.coinValueLevel !== 'number') return null
+    if (typeof o.addSliceLevel !== 'number') return null
+    if (typeof o.removeBlankLevel !== 'number') return null
+    if (!Array.isArray(o.slices)) return null
+
+    const slices = o.slices.map(normalizeSlice).filter(Boolean) as CoinSlice[]
+    if (slices.length === 0) return null
+
+    return {
+      spinCount: o.spinCount,
+      coinHitCount: o.coinHitCount,
+      coinStreak: o.coinStreak,
+      coins: o.coins,
+      coinValueLevel: o.coinValueLevel,
+      addSliceLevel: o.addSliceLevel,
+      removeBlankLevel: o.removeBlankLevel,
+      slices,
+      lastResult: null,
+      lastMessage: null,
+    }
+  } catch {
+    return null
+  }
+}
+
+export function saveCoinatroState(state: CoinatroState) {
+  try {
+    const payload: CoinatroState = { ...state, lastResult: null, lastMessage: null }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload))
+  } catch {
+    // ignore
   }
 }
 
