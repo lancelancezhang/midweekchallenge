@@ -295,6 +295,317 @@ body {
   place-items: center;
 }
 
+.wheelatroLayout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 22px;
+  align-items: stretch;
+}
+
+.wheelatroPageColumn {
+  min-height: 0;
+  height: 100%;
+  align-self: stretch;
+}
+
+.wheelatroCard {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  padding: 22px;
+  display: grid;
+  gap: 16px;
+}
+
+.wheelatroTop {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.wheelatroAboveWheel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: end;
+  width: 100%;
+}
+
+.wheelatroTopStat {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.wheelatroStat {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 12px;
+  background: var(--card2);
+}
+
+.wheelatroLabel {
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.wheelatroValue {
+  font-size: 26px;
+  letter-spacing: -0.4px;
+  font-weight: 900;
+  margin-top: 6px;
+}
+
+.wheelatroHint {
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+.wheelatroStage {
+  position: relative;
+  width: min(620px, 100%);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  padding-left: 20px;
+}
+
+.wheelatroWrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.wheelatroWheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.12);
+  will-change: transform;
+}
+
+.wheelatroLabels {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.wheelatroLabelItem {
+  position: absolute;
+  inset: 0;
+}
+
+.wheelatroLabelText {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) translateY(-205px) rotate(90deg);
+  transform-origin: center;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.3px;
+  color: rgba(15, 23, 42, 0.85);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.wheelatroHub {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 22%;
+  height: 22%;
+  border-radius: 999px;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.1);
+}
+
+.wheelatroPointer {
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 18px solid rgba(15, 23, 42, 0.9);
+  filter: drop-shadow(0 4px 10px rgba(15, 23, 42, 0.25));
+}
+
+.wheelatroControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.wheelatroSpinBtn {
+  padding: 14px 22px;
+  font-size: 18px;
+  min-width: 220px;
+  border-radius: 14px;
+}
+
+.wheelatroResult {
+  min-width: 240px;
+}
+
+.wheelatroSide {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.wheelatroUpgradeCard,
+.wheelatroSummaryCard {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+.wheelatroOffers {
+  display: grid;
+  gap: 10px;
+}
+
+.wheelatroOffer {
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  background: var(--card2);
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}
+
+.wheelatroOffer:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--border) 20%, #111827);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+  transform: translateY(-1px);
+}
+
+.wheelatroOffer:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.1);
+}
+
+.wheelatroOffer:disabled {
+  opacity: 0.62;
+  cursor: not-allowed;
+}
+
+.wheelatroOffer:focus-visible {
+  outline: 2px solid rgba(17, 24, 39, 0.55);
+  outline-offset: 2px;
+}
+
+.wheelatroOfferTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.wheelatroOfferName {
+  font-weight: 900;
+  letter-spacing: -0.2px;
+}
+
+.wheelatroOfferMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wheelatroCost {
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(15, 23, 42, 0.82);
+}
+
+.wheelatroOfferDesc {
+  margin-top: 8px;
+  line-height: 1.4;
+  font-size: 14px;
+}
+
+.wheelatroOfferSubline {
+  margin-top: 6px;
+}
+
+.wheelatroSummaryTitle {
+  font-size: 18px;
+  font-weight: 1000;
+  letter-spacing: -0.2px;
+  margin-bottom: 10px;
+}
+
+.wheelatroSectionTitle {
+  font-size: 18px;
+  font-weight: 1000;
+  letter-spacing: -0.2px;
+  margin-bottom: 10px;
+}
+
+.wheelatroStatsGrid {
+  display: grid;
+  gap: 10px;
+}
+
+.wheelatroStatsRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.wheelatroStatsValue {
+  font-weight: 900;
+  letter-spacing: -0.2px;
+}
+
+.wheelatroStatsDivider {
+  height: 1px;
+  background: var(--border);
+  margin: 14px 0;
+}
+
+.wheelatroMetaTitle {
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+
+.wheelatroMetaLine {
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+@media (max-width: 860px) {
+  .wheelatroLayout {
+    grid-template-columns: 1fr;
+  }
+}
+
 .wheelCard {
   width: min(760px, 100%);
   border: 1px solid var(--border);
