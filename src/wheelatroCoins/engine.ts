@@ -31,7 +31,7 @@ export function costCoinValue(state: CoinatroState) {
 }
 
 export function costAddSlice(state: CoinatroState) {
-  return Math.ceil(5 * Math.pow(1.5, state.addSliceLevel))
+  return Math.ceil(6 * Math.pow(1.5, state.addSliceLevel))
 }
 
 export function costRemoveBlank(state: CoinatroState) {
@@ -52,7 +52,7 @@ export function addSliceCoinChance(state: CoinatroState) {
 export function createInitialState(): CoinatroState {
   const slices: CoinSlice[] = [
     { id: 'coin-1', kind: 'coin', label: 'COIN' },
-    ...Array.from({ length: 7 }).map((_, i) => ({
+    ...Array.from({ length: 8 }).map((_, i) => ({
       id: `blank-${i + 1}`,
       kind: 'blank' as const,
       label: '—',
@@ -66,6 +66,8 @@ export function createInitialState(): CoinatroState {
     coinValueLevel: 0,
     addSliceLevel: 0,
     removeBlankLevel: 0,
+    hasStreak5Double: false,
+    miniWheelLevel: 0,
     slices,
     lastResult: null,
     lastMessage: null,
@@ -77,18 +79,82 @@ export function rollSlice(slices: CoinSlice[]) {
   return slices[idx]
 }
 
-export function resolveSpin(state: CoinatroState, landed: CoinSlice): CoinatroState {
-  const win = landed.kind === 'coin'
-  const gain = win ? coinValue(state) : 0
+export function resolveSpin(
+  state: CoinatroState,
+  landed: CoinSlice,
+  miniLandeds?: Array<CoinSlice | null> | null,
+): CoinatroState {
+  const mainWin = landed.kind === 'coin'
+  const miniWins = (miniLandeds ?? []).filter((s): s is CoinSlice => Boolean(s)).filter((s) => s.kind === 'coin').length
+
+  const mainGain = mainWin ? coinValue(state) : 0
+  const miniGain = miniWins * coinValue(state)
+  const totalGain = mainGain + miniGain
+
+  const nextStreak = mainWin ? state.coinStreak + 1 : 0
+  let nextCoins = state.coins + totalGain
+
+  const parts: string[] = []
+  if (mainWin) parts.push(`Main COIN (+${mainGain})`)
+  if (miniWins > 0) parts.push(`Mini COIN x${miniWins} (+${miniGain})`)
+  if (!mainWin && miniWins === 0) parts.push('Nothing…')
+
+  if (state.hasStreak5Double && mainWin && nextStreak === 5) {
+    nextCoins *= 2
+    parts.push('Streak 5! Coins doubled.')
+  }
+
   return {
     ...state,
     spinCount: state.spinCount + 1,
-    coinHitCount: state.coinHitCount + (win ? 1 : 0),
-    coinStreak: win ? state.coinStreak + 1 : 0,
-    coins: state.coins + gain,
+    coinHitCount: state.coinHitCount + (mainWin ? 1 : 0),
+    coinStreak: nextStreak,
+    coins: nextCoins,
     lastResult: landed,
-    lastMessage: win ? `You hit COIN (+${gain})` : 'Nothing…',
+    lastMessage: parts.join(' · '),
   }
+}
+
+export function costStreak5Double() {
+  return 20
+}
+
+export function buyStreak5Double(state: CoinatroState): CoinatroState {
+  if (state.hasStreak5Double) return state
+  const cost = costStreak5Double()
+  if (state.coins < cost) return { ...state, lastMessage: 'Not enough coins.' }
+  return {
+    ...state,
+    coins: state.coins - cost,
+    hasStreak5Double: true,
+    lastMessage: 'Unlocked: Streak 5 doubles your coins.',
+  }
+}
+
+export function costMiniWheel(state: CoinatroState) {
+  const base = 40
+  return base * Math.pow(2, state.miniWheelLevel)
+}
+
+export function buyMiniWheel(state: CoinatroState): CoinatroState {
+  if (state.miniWheelLevel >= 3) return state
+  const cost = costMiniWheel(state)
+  if (state.coins < cost) return { ...state, lastMessage: 'Not enough coins.' }
+  return {
+    ...state,
+    coins: state.coins - cost,
+    miniWheelLevel: state.miniWheelLevel + 1,
+    lastMessage: state.miniWheelLevel === 0 ? 'Unlocked: Mini wheel.' : 'Added another mini wheel.',
+  }
+}
+
+export function miniWheelSlices(): CoinSlice[] {
+  return [
+    { id: 'mini-coin', kind: 'coin', label: 'COIN' },
+    { id: 'mini-blank-1', kind: 'blank', label: '—' },
+    { id: 'mini-blank-2', kind: 'blank', label: '—' },
+    { id: 'mini-blank-3', kind: 'blank', label: '—' },
+  ]
 }
 
 export function buyCoinValue(state: CoinatroState): CoinatroState {
@@ -175,6 +241,10 @@ export function loadCoinatroState(): CoinatroState | null {
     if (typeof o.coinValueLevel !== 'number') return null
     if (typeof o.addSliceLevel !== 'number') return null
     if (typeof o.removeBlankLevel !== 'number') return null
+    if (typeof o.hasStreak5Double !== 'boolean') return null
+    if (typeof o.miniWheelLevel !== 'number') return null
+    if (!Number.isFinite(o.miniWheelLevel)) return null
+    if (o.miniWheelLevel < 0 || o.miniWheelLevel > 3) return null
     if (!Array.isArray(o.slices)) return null
 
     const slices = o.slices.map(normalizeSlice).filter(Boolean) as CoinSlice[]
@@ -188,6 +258,8 @@ export function loadCoinatroState(): CoinatroState | null {
       coinValueLevel: o.coinValueLevel,
       addSliceLevel: o.addSliceLevel,
       removeBlankLevel: o.removeBlankLevel,
+      hasStreak5Double: o.hasStreak5Double,
+      miniWheelLevel: o.miniWheelLevel,
       slices,
       lastResult: null,
       lastMessage: null,

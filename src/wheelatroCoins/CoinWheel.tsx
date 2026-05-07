@@ -10,11 +10,17 @@ export function CoinWheel({
   outcomeSliceId,
   spinning,
   onDone,
+  embedded,
+  className,
+  style,
 }: {
   slices: CoinSlice[]
   outcomeSliceId: string | null
   spinning: boolean
-  onDone: () => void
+  onDone?: () => void
+  embedded?: boolean
+  className?: string
+  style?: React.CSSProperties
 }) {
   const segmentDeg = 360 / slices.length
 
@@ -58,7 +64,7 @@ export function CoinWheel({
         rafRef.current = requestAnimationFrame(tick)
       } else {
         rafRef.current = null
-        onDone()
+        onDone?.()
       }
     }
 
@@ -70,37 +76,41 @@ export function CoinWheel({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spinning, outcomeSliceId])
 
+  const wheelBody = (
+    <div className="wheelatroWrap">
+      <div
+        className="wheelatroWheel"
+        style={{
+          backgroundImage: gradient,
+          transform: `rotate(${rotation - 90}deg)`,
+        }}
+      />
+      <div className="wheelatroLabels" style={{ transform: `rotate(${rotation - 90}deg)` }} aria-hidden="true">
+        {slices.map((s, i) => {
+          const a = i * segmentDeg + segmentDeg / 2
+          return (
+            <div key={s.id} className="wheelatroLabelItem" style={{ transform: `rotate(${a}deg)` }}>
+              <div className="wheelatroLabelText">{s.kind === 'coin' ? 'COIN' : '—'}</div>
+            </div>
+          )
+        })}
+      </div>
+      <div className="wheelatroHub" aria-hidden="true" />
+    </div>
+  )
+
+  if (embedded) {
+    return (
+      <div className={className} style={style} aria-label="Coin wheel">
+        {wheelBody}
+      </div>
+    )
+  }
+
   return (
     <div className="wheelatroStage" aria-label="Coin wheel">
       <div className="wheelatroPointer" aria-hidden="true" />
-      <div className="wheelatroWrap">
-        <div
-          className="wheelatroWheel"
-          style={{
-            backgroundImage: gradient,
-            transform: `rotate(${rotation - 90}deg)`,
-          }}
-        />
-        <div
-          className="wheelatroLabels"
-          style={{ transform: `rotate(${rotation - 90}deg)` }}
-          aria-hidden="true"
-        >
-          {slices.map((s, i) => {
-            const a = i * segmentDeg + segmentDeg / 2
-            return (
-              <div
-                key={s.id}
-                className="wheelatroLabelItem"
-                style={{ transform: `rotate(${a}deg)` }}
-              >
-                <div className="wheelatroLabelText">{s.kind === 'coin' ? 'COIN' : '—'}</div>
-              </div>
-            )
-          })}
-        </div>
-      </div>
-      <div className="wheelatroHub" aria-hidden="true" />
+      {wheelBody}
     </div>
   )
 }

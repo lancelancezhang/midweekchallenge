@@ -16,6 +16,8 @@ export type CoinatroState = {
   coinValueLevel: number
   addSliceLevel: number
   removeBlankLevel: number
+  hasStreak5Double: boolean
+  miniWheelLevel: number
   slices: CoinSlice[]
   lastResult: CoinSlice | null
   lastMessage: string | null
